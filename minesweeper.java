@@ -32,41 +32,54 @@ public class minesweeper {
     int rows = Integer.parseInt(input[0]);
     int columns = Integer.parseInt(input[1]);
     int mines = Integer.parseInt(input[2]);
-    minesweeper = InitializeMinesweeper(rows, columns, mines);
+
     coveredCells = rows * columns;
 
-    //play game
-    while (coveredCells > 0) {
-      DrawMinesweeper(minesweeper);
-      System.out.print("Next action: ");
-      input = scanner.nextLine().split(" ");
-      int row = Integer.parseInt(input[0]) - 1;
-      int column = Integer.parseInt(input[1]) - 1;
-      char flag = input[2].toUpperCase().charAt(0);
+    //validate the mines amount
+    if (coveredCells > mines) {
+      minesweeper = InitializeMinesweeper(rows, columns, mines);
 
-      if (flag == 'U') {
-        minesweeper = UncoverCell(minesweeper, row, column);
+      //play game
+      while (coveredCells > 0) {
+        DrawMinesweeper(minesweeper);
+        System.out.print("Next action: ");
+        input = scanner.nextLine().split(" ");
+
+        try {
+          int row = Integer.parseInt(input[0]) - 1;
+          int column = Integer.parseInt(input[1]) - 1;
+          char flag = input[2].toUpperCase().charAt(0);
+
+          if (flag == 'U') {
+            minesweeper = UncoverCell(minesweeper, row, column);
+          }
+          else if (flag == 'M') {
+            minesweeper[row][column][0] = 'p';
+            --coveredCells;
+          }
+          System.out.println();
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+          System.out.println("Unexpected action! Try again...");
+        }
+        catch (Exception e) {
+          System.out.println("An error has orurred, I'm so embarrased...");
+        }
       }
-      else if (flag == 'M') {
-        minesweeper[row][column][0] = 'p';
-        --coveredCells;
+
+      //validate the minesweeper
+      if (coveredCells == 0) {
+        if (ValidateMinesweeper(minesweeper, mines)) {
+          System.out.println("You Won!!! It was really nice!!! :)");
+        }
+        else {
+          System.out.println("You Lost!! Try again! :(\n");
+        }
       }
-      else {
-        System.out.println("Unexpected action! Try again");
-      }
-      System.out.println();
     }
-
-    //validate the minesweeper
-    if (coveredCells == 0) {
-      if (ValidateMinesweeper(minesweeper, mines)) {
-        System.out.println("You Won!!! It was really nice!!! :)");
-      }
-      else {
-        System.out.println("You Lost!! Try again! :(\n");
-      }
+    else {
+      System.out.println("Input correct values, please!\n");
     }
-
   }
 
   static char[][][] InitializeMinesweeper(int rows, int columns, int mines) {
@@ -182,6 +195,5 @@ public class minesweeper {
       }
       System.out.println();
     }
-    System.out.println("You Lost!! Try again! :(\n");
   }
 }
