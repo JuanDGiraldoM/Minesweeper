@@ -72,7 +72,7 @@ public class minesweeper {
         }
       }
 
-      //validate the minesweeper
+      //validate the minesweeper when all cells are uncovered
       if (coveredCells == 0) {
         if (ValidateMinesweeper(minesweeper, mines)) {
           System.out.println("You Won!!! It was really nice!!! :)");
@@ -83,7 +83,7 @@ public class minesweeper {
       }
     }
     else {
-      System.out.println("Input correct values, please!\n");
+      System.out.println("Enter correct values, please!\n");
     }
   }
 
