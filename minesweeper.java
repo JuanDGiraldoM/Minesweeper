@@ -2,13 +2,15 @@
 import java.util.Scanner;
 
 public class minesweeper {
+
+  static int coveredCells;
+
   public static void main (String[] args) {
 
     //variables' declaration
     Scanner scanner = new Scanner(System.in);
     String[] input;
     char[][][] minesweeper;
-    int coveredCells;
 
     //instructions
     System.out.println("\n--------------------Minesweeper Game!!--------------------\n");
@@ -43,10 +45,10 @@ public class minesweeper {
       char flag = input[2].toUpperCase().charAt(0);
 
       if (flag == 'U') {
-
+        minesweeper = UncoverCell(minesweeper, row, column);
       }
       else if (flag == 'M') {
-        minesweeper[row][column][0] = flag;
+        minesweeper[row][column][0] = 'p';
         --coveredCells;
       }
       else {
@@ -103,6 +105,37 @@ public class minesweeper {
     return minesweeper;
   }
 
+  static char[][][] UncoverCell(char[][][] minesweeper, int row, int column) {
+    char uncoveredCell = minesweeper[row][column][1];
+    if (minesweeper[row][column][0] != uncoveredCell) {
+      if (uncoveredCell == '-') {
+        minesweeper[row][column][0] = uncoveredCell;
+        --coveredCells;
+        for (int i = row - 1; i <= row + 1; i++) {
+          for (int j = column - 1; j <= column + 1; j++){
+            try {
+              minesweeper = UncoverCell(minesweeper, i, j);
+            }
+            catch (ArrayIndexOutOfBoundsException e) {
+              
+            }
+          }
+        }
+
+
+      }
+      else if (uncoveredCell == '*') {
+        DrawMines(minesweeper);
+        coveredCells = 0;
+      }
+      else {
+        minesweeper[row][column][0] = uncoveredCell;
+        --coveredCells;
+      }
+    }
+    return minesweeper;
+  }
+
   static void DrawMinesweeper(char[][][] minesweeper) {
     for (char[][] column : minesweeper) {
       for (char[] cell : column) {
@@ -110,5 +143,21 @@ public class minesweeper {
       }
       System.out.println("");
     }
+  }
+
+  static void DrawMines(char[][][] minesweeper) {
+    System.out.println();
+    for (char[][] column : minesweeper) {
+      for (char[] cell : column) {
+        if (cell[1] == '*') {
+          System.out.print(cell[1] + " ");
+        }
+        else {
+          System.out.print(cell[0] + " ");
+        }
+      }
+      System.out.println();
+    }
+    System.out.println("You Lose!! Try again!\n");
   }
 }
