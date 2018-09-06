@@ -6,7 +6,7 @@ public class minesweeper {
 
     //variables' declaration
     Scanner scanner = new Scanner(System.in);
-    char[] input;
+    String[] input;
     char[][][] minesweeper;
     int coveredCells;
 
@@ -22,7 +22,7 @@ public class minesweeper {
     System.out.println("--Represent a mine -> '*'");
     System.out.println("--Represent a flag -> 'p'");
     System.out.println("--Number of adjacent mines -> '1...8'");
-    System.out.println();
+    System.out.println("");
 
     //initialize the minesweeper
     System.out.print("How do you want your minesweeper?: ");
@@ -34,10 +34,11 @@ public class minesweeper {
     coveredCells = rows * columns;
 
     do {
-
-
+      DrawMinesweeper(minesweeper);
+      System.out.print("Next action: ");
+      input = scanner.nextLine().split(" ");
     }
-    while (coveredCells);
+    while (coveredCells > 0);
 
   }
 
@@ -47,21 +48,51 @@ public class minesweeper {
     for (char[][] column : minesweeper) {
       for (char[] cell : column) {
         cell[0] = '.';
-        cell[1] = '';
+        cell[1] = '-';
       }
     }
 
     int row = 0, column = 0;
-    while (mines) {
+    while (mines > 0) {
       row = (int) (Math.random() * rows);
       column = (int) (Math.random() * columns);
 
       if (minesweeper[row][column][1] != '*'){
         minesweeper[row][column][1] = '*';
         --mines;
+        minesweeper = AssignNumbers(minesweeper, row, column);
       }
     }
 
     return minesweeper;
+  }
+
+  static char[][][] AssignNumbers(char[][][] minesweeper, int row, int column) {
+    int value;
+    char character;
+
+    for (int i = row - 1; i <= row + 1; i++) {
+      for (int j = column - 1; j <= column + 1; j++) {
+        try {
+          character = minesweeper[i][j][1];
+          if (character != '*') {
+            value = (character == '-') ? 0 : Character.getNumericValue(character);
+            minesweeper[i][j][1] = Character.forDigit(++value, 10);
+          }
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+        }
+      }
+    }
+    return minesweeper;
+  }
+
+  static void DrawMinesweeper(char[][][] minesweeper) {
+    for (char[][] column : minesweeper) {
+      for (char[] cell : column) {
+        System.out.print(cell[1] + " ");
+      }
+      System.out.println("");
+    }
   }
 }
