@@ -50,12 +50,17 @@ public class minesweeper {
           int column = Integer.parseInt(input[1]) - 1;
           char flag = input[2].toUpperCase().charAt(0);
 
+          //uncover a cell
           if (flag == 'U') {
             minesweeper = UncoverCell(minesweeper, row, column);
           }
+          //mark a cell
           else if (flag == 'M') {
             minesweeper[row][column][0] = 'p';
             --coveredCells;
+          }
+          else {
+              System.out.println("Unexpected action! Try again...");
           }
           System.out.println();
         }
@@ -82,9 +87,16 @@ public class minesweeper {
     }
   }
 
+  /**
+  * Function that initialiazes the minesweeper
+  * @param rows the number of minesweeper's rows
+  * @param columns the number of minesweeper's ColumnConstraints
+  * @return minesweeper dashboard array created
+  **/
   static char[][][] InitializeMinesweeper(int rows, int columns, int mines) {
     char[][][] minesweeper = new char[rows][columns][2];
 
+    //filling the array
     for (char[][] column : minesweeper) {
       for (char[] cell : column) {
         cell[0] = '.';
@@ -92,6 +104,7 @@ public class minesweeper {
       }
     }
 
+    //assigning the mines
     int row = 0, column = 0;
     while (mines > 0) {
       row = (int) (Math.random() * rows);
@@ -107,6 +120,13 @@ public class minesweeper {
     return minesweeper;
   }
 
+  /**
+  * Function that assign the around numbers after put the mines
+  * @param minesweeper the minesweeper dashboard array
+  * @param row the row of the mine
+  * @param column the column of the mine
+  * @return the minesweeper updated
+  **/
   static char[][][] AssignNumbers(char[][][] minesweeper, int row, int column) {
     int value;
     char character;
@@ -127,6 +147,13 @@ public class minesweeper {
     return minesweeper;
   }
 
+  /**
+  * Function that uncover a specific cell
+  * @param minesweeper the minesweeper dashboard array
+  * @param row the row of the cell to uncover
+  * @param column the column of the cell to uncover
+  * @return the minesweeper updated
+  **/
   static char[][][] UncoverCell(char[][][] minesweeper, int row, int column) {
     char uncoveredCell = minesweeper[row][column][1];
     if (minesweeper[row][column][0] != uncoveredCell) {
@@ -155,6 +182,12 @@ public class minesweeper {
     return minesweeper;
   }
 
+  /**
+  * Function that validate the minesweeper when it doesn't have covered cells
+  * @param minesweeper the minesweeper dashboard array
+  * @param mines the minesweeper's mines amount
+  * @return true if the minesweeper is correctly filled, or false if it isn't
+  **/
   static boolean ValidateMinesweeper(char[][][] minesweeper, int mines) {
     int flags = 0;
     for (char[][] column : minesweeper) {
@@ -173,6 +206,10 @@ public class minesweeper {
     return true;
   }
 
+  /**
+  * Function that print the current minesweeper
+  * @param minesweeper the minesweeper dashboard array
+  **/
   static void DrawMinesweeper(char[][][] minesweeper) {
     for (char[][] column : minesweeper) {
       for (char[] cell : column) {
@@ -182,6 +219,10 @@ public class minesweeper {
     }
   }
 
+  /**
+  * Function that print the minesweeper's mines when the user open the incorrect cell
+  * @param minesweeper the minesweeper dashboard array
+  **/
   static void DrawMines(char[][][] minesweeper) {
     System.out.println();
     for (char[][] column : minesweeper) {
