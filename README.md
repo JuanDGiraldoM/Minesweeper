@@ -10,7 +10,7 @@ After that, it generate the file minesweeper.class and you can run the program w
 
     java minesweeper
 
-## Intructions
+## Instructions
 
 For initialize the minesweeper enter: (rows columns mines)
 
