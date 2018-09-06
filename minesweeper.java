@@ -36,7 +36,7 @@ public class minesweeper {
     coveredCells = rows * columns;
 
     //play game
-    do {
+    while (coveredCells > 0) {
       DrawMinesweeper(minesweeper);
       System.out.print("Next action: ");
       input = scanner.nextLine().split(" ");
@@ -56,7 +56,16 @@ public class minesweeper {
       }
       System.out.println();
     }
-    while (coveredCells > 0);
+
+    //validate the minesweeper
+    if (coveredCells == 0) {
+      if (ValidateMinesweeper(minesweeper, mines)) {
+        System.out.println("You Won!!! It was really nice!!! :)");
+      }
+      else {
+        System.out.println("You Lost!! Try again! :(\n");
+      }
+    }
 
   }
 
@@ -117,12 +126,9 @@ public class minesweeper {
               minesweeper = UncoverCell(minesweeper, i, j);
             }
             catch (ArrayIndexOutOfBoundsException e) {
-              
             }
           }
         }
-
-
       }
       else if (uncoveredCell == '*') {
         DrawMines(minesweeper);
@@ -134,6 +140,24 @@ public class minesweeper {
       }
     }
     return minesweeper;
+  }
+
+  static boolean ValidateMinesweeper(char[][][] minesweeper, int mines) {
+    int flags = 0;
+    for (char[][] column : minesweeper) {
+      for (char[] cell : column) {
+        if (cell[0] == 'p' && cell[1] == '*') {
+          ++flags;
+        }
+        else if (cell[0] != cell[1]) {
+          return false;
+        }
+      }
+    }
+    if (flags != mines) {
+      return false;
+    }
+    return true;
   }
 
   static void DrawMinesweeper(char[][][] minesweeper) {
@@ -158,6 +182,6 @@ public class minesweeper {
       }
       System.out.println();
     }
-    System.out.println("You Lose!! Try again!\n");
+    System.out.println("You Lost!! Try again! :(\n");
   }
 }
