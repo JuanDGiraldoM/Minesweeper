@@ -33,10 +33,26 @@ public class minesweeper {
     minesweeper = InitializeMinesweeper(rows, columns, mines);
     coveredCells = rows * columns;
 
+    //play game
     do {
       DrawMinesweeper(minesweeper);
       System.out.print("Next action: ");
       input = scanner.nextLine().split(" ");
+      int row = Integer.parseInt(input[0]) - 1;
+      int column = Integer.parseInt(input[1]) - 1;
+      char flag = input[2].toUpperCase().charAt(0);
+
+      if (flag == 'U') {
+
+      }
+      else if (flag == 'M') {
+        minesweeper[row][column][0] = flag;
+        --coveredCells;
+      }
+      else {
+        System.out.println("Unexpected action! Try again");
+      }
+      System.out.println();
     }
     while (coveredCells > 0);
 
@@ -90,7 +106,7 @@ public class minesweeper {
   static void DrawMinesweeper(char[][][] minesweeper) {
     for (char[][] column : minesweeper) {
       for (char[] cell : column) {
-        System.out.print(cell[1] + " ");
+        System.out.print(cell[0] + " ");
       }
       System.out.println("");
     }
