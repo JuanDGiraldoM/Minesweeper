@@ -20,7 +20,7 @@ public class minesweeper {
     System.out.println("----The action should be 'U' or 'M' (it means Uncover or Mark)\n");
     System.out.println("Syntax:");
     System.out.println("--Unselected cell -> '.'");
-    System.out.println("--Disable cell -> '-'");
+    System.out.println("--Disabled cell -> '-'");
     System.out.println("--Represent a mine -> '*'");
     System.out.println("--Represent a flag -> 'p'");
     System.out.println("--Number of adjacent mines -> '1...8'");
